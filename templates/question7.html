@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>다음 중 건조감이 심해지는 상황이 있나요? ('해당하는 부분이 없어요' 외 중복선택 가능)</h2>
+<form action="/submit/7" method="post">
+    <button type="button" value="VDT" class="option-button">모니터/스마트폰을 오래 보면 심해져요
+    </button><br>
+    <button type="button" value="space" class="option-button">특정 공간(예 : 사무실, 집 등)에 
+        오래 있으면 심해져요.</button><br>
+    <button type="button" value="weather" class="option-button">바깥 날씨나 계절의 영향을 
+        받는 것 같아요. (미세먼지, 꽃가루, 겨울철 등)</button><br>
+    <button type="button" value="None" class="exclusive-button">해당되는 부분이 없어요 
+        / 잘 모르겠어요</button><br>
+    <input type="hidden" name="answer" id="answer">
+    <input type="hidden" name="existing_answers" value="{{ answers }}">
+    <button type="submit" class="submit-button">제출</button>
+</form>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const buttons = document.querySelectorAll('.option-button');
+        const exclusiveButton = document.querySelector('.exclusive-button');
+        const answerInput = document.getElementById('answer');
+
+        buttons.forEach(button => {
+            button.addEventListener('click', function() {
+                if (exclusiveButton.classList.contains('selected')) {
+                    exclusiveButton.classList.remove('selected');
+                }
+                this.classList.toggle('selected');
+                updateAnswer();
+            });
+        });
+
+        exclusiveButton.addEventListener('click', function() {
+            buttons.forEach(button => button.classList.remove('selected'));
+            this.classList.add('selected');
+            updateAnswer();
+        });
+
+        function updateAnswer() {
+            const selectedButtons = document.querySelectorAll('.option-button.selected');
+            const selectedValues = Array.from(selectedButtons).map(button => button.value);
+
+            if (exclusiveButton.classList.contains('selected')) {
+                selectedValues.push(exclusiveButton.value);
+            }
+
+            answerInput.value = selectedValues.join(',');
+        }
+    });
+</script>
+{% endblock %}

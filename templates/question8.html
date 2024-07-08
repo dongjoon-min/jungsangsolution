@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>하루에 스마트폰/모니터를 보는 시간이 얼마나 되시나요? (연속 시간 기준)</h2>
+<form id="question-form" action="/submit/8" method="post">
+    <button type="submit" name="answer" value="2h" class="option-button">2시간 이상</button><br>
+    <button type="submit" name="answer" value="1h" class="option-button">1~2시간</button><br>
+    <button type="submit" name="answer" value="0" class="option-button">1시간 미만</button>
+    <input type="hidden" name="existing_answers" value='{{ answers }}'>
+</form>
+{% endblock %}

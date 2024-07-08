@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>결과</h2>
+<p>당신의 선택은:</p>
+<ul>
+    {% for answer in answers %}
+    <li>{{ answer }}</li>
+    {% endfor %}
+</ul>
+<p>평균 길이: {{ score }}</p>
+{% endblock %}
