@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>해당하는 질환이 있으면 <b>모두</b> 체크해주세요.</h2>
+<form action="/submit/9" method="post">
+    <button type="button" value="circulation" class="option-button">고혈압, 관상동맥질환 등 심혈관계 질환이 있어요
+    </button><br>
+    <button type="button" value="thyroid" class="option-button">갑상선 질환이 있어요
+    </button><br>
+    <button type="button" value="immune" class="option-button">갑상선 질환이 있어요
+    </button><br>
+    <button type="button" value="damage" class="option-button">녹내장, 각막염 등 눈 질환이 있거나, 
+        눈에 물리적 손상을 입은 적이 있어요.</button><br>
+    <button type="button" value="symnerve" class="option-button">기립성 저혈압, 이명, 두통 등이 있어요.
+    </button><br>            
+    <button type="button" value="None" class="exclusive-button">해당되는 부분이 없어요 
+        / 잘 모르겠어요</button><br>
+    <input type="hidden" name="answer" id="answer">
+    <input type="hidden" name="existing_answers" value="{{ answers }}">
+    <button type="submit" class="submit-button">다음</button>
+</form>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const buttons = document.querySelectorAll('.option-button');
+        const exclusiveButton = document.querySelector('.exclusive-button');
+        const answerInput = document.getElementById('answer');
+
+        buttons.forEach(button => {
+            button.addEventListener('click', function() {
+                if (exclusiveButton.classList.contains('selected')) {
+                    exclusiveButton.classList.remove('selected');
+                }
+                this.classList.toggle('selected');
+                updateAnswer();
+            });
+        });
+
+        exclusiveButton.addEventListener('click', function() {
+            buttons.forEach(button => button.classList.remove('selected'));
+            this.classList.add('selected');
+            updateAnswer();
+        });
+
+        function updateAnswer() {
+            const selectedButtons = document.querySelectorAll('.option-button.selected');
+            const selectedValues = Array.from(selectedButtons).map(button => button.value);
+
+            if (exclusiveButton.classList.contains('selected')) {
+                selectedValues.push(exclusiveButton.value);
+            }
+
+            answerInput.value = selectedValues.join(',');
+        }
+    });
+</script>
+{% endblock %}

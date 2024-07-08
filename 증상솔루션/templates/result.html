@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>설문 결과</h2>
+<br>
+
+<div id="cause-keywords" class="box">
+    <h2>나의 안구건조증은?</h2>
+    <br>
+    <h3>{{ type_title }}</h3>
+    <br>
+    {{ type_subtitle }}
+    <h3>{{ type_name }}</h3>
+    tear_evaporate_score : {{ tear_evaporate_score }}
+    <br>
+    tear_lack_score : {{ tear_lack_score }}
+</div>
+
+<br>
+
+<div id="cause-keywords" class="box">
+    <h2>나의 눈이 건조한 이유 : 유력한 후보들</h2>
+    <ul class="cause-list">
+        {% for keyword in cause_keywords %}
+        <li>{{ keyword }}</li>
+        {% endfor %}
+    </ul>
+</div>
+
+<br>
+<br>
+<div id="cause-keywords" class="box">
+    <h2> 눈물에 관한 상식 </h2>
+    <img src = https://raw.githubusercontent.com/dongjoon-min/publicimages/6034aa39c7fcb3711a6ba2ae373c4e2bb1d68722/images/eye_sangsik.png>
+</div>
+
+
+<div class="result-container">
+    <h3>답변 요약</h3>
+    <ul>
+        {% for question_id, answer in answers.items() %}
+            <li><strong>질문 {{ question_id }}:</strong> {{ answer }}</li>
+        {% endfor %}
+    </ul>
+
+    {% if special_message %}
+    <div class="special-message">
+        <p>{{ special_message }}</p>
+    </div>
+    {% endif %}
+
+
+</div>
+{% endblock %}
