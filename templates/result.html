@@ -1,11 +1,135 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>결과</h2>
-<p>당신의 선택은:</p>
-<ul>
-    {% for answer in answers %}
-    <li>{{ answer }}</li>
-    {% endfor %}
-</ul>
-<p>평균 길이: {{ score }}</p>
+<h2>설문 결과</h2>
+<br>
+
+<div id="cause-keywords" class="box">
+    <h2>🙄 나의 안구건조증은?</h2>
+    <h1>{{ type_emoji }}</h1>
+    <h3>{{ type_title }}</h3>
+    <h3>{{ type_subtitle }}</h3>
+    <h3>{{ type_name }}</h3>
+    tear_evaporate_score : {{ tear_evaporate_score }}
+    <br>
+    tear_lack_score : {{ tear_lack_score }}
+</div>
+
+<br>
+
+<div id="cause-keywords" class="box">
+    <h2>👀 유형에 대한 설명</h2>
+    <div id="cause-keywords" class="box">
+        (유형 사진 추가)
+        <br>
+        <br>
+        {{ type_detail_message }}
+    </div>
+</div>
+
+<br>
+
+<div id="cause-keywords" class="box">
+    <h2> 🤔 <font color=#CC7722>나의 눈이 건조한 이유는?</font>
+    </h2>
+    <ul class="cause-list">
+        <div id="content">
+            {% for keyword in cause_comments %}
+            <li>{{ keyword | safe }}</li>
+            {% endfor %}
+        </div>
+    </ul>
+</div>
+
+<br>
+<div id="cause-keywords" class="box">
+    <h2> 💧 건조한 눈을 개선하기 위한 솔루션</h2>
+    <ul class="cause-list">
+        <div id="content">
+            {% for keyword in solution_comments %}
+            <li>{{ keyword | safe }}</li>
+            {% endfor %}
+        </div>
+    </ul>
+</div>
+
+
+<br>
+
+<div class="result-container">
+    <h1> 💊 소중한 눈 건강을 위한 패키지 </h1>
+
+    <div id="cause-keywords" class="box" , id="pack1">
+        <h2> {{ pack1_package_name }} </h2>
+        <div class="pack-sentence">[ 팩 설명 ]<br>{{ pack1_sentence }}</div>
+        <div class="pack-gusang">[ 팩 구성 ]<br>{{ pack1_package_gusang }}</div>
+        <div class="price-container">
+            [ 가격 ]
+            <br>
+            정가 : <span class="original-price">{{ pack1_original_price }}</span>
+            <br>
+            판매 가격 : <span class="discount-price">{{ pack1_selling_price }}</span>
+            <span class="sale-tag">SALE</span>
+            <br>
+            <span class="percentage-off">{{ ((pack1_original_price - pack1_selling_price) / pack1_original_price * 100)
+                | round(0) }}% 할인</span>
+        </div>
+
+    </div>
+    <br>
+    <div id="cause-keywords" class="box" , id="pack1">
+        <h2> {{ pack2_package_name }} </h2>
+        <div class="pack-sentence">[ 팩 설명 ]<br>{{ pack2_sentence }}</div>
+        <div class="pack-gusang">[ 팩 구성 ]<br>{{ pack2_package_gusang }}</div>
+        <div class="price-container">
+            [ 가격 ]
+            <br>
+            정가 : <span class="original-price">{{ pack2_original_price }}</span>
+            <br>
+            판매 가격 : <span class="discount-price">{{ pack2_selling_price}}</span>
+            <span class="sale-tag">SALE</span>
+            <br>
+            <span class="percentage-off">{{ ((pack2_original_price - pack2_selling_price) / pack2_original_price * 100)|
+                round(0) }}% 할인</span>
+        </div>
+    </div>
+
+</div>
+<br>
+<br>
+
+<div id="cause-keywords" class="box">
+    <h2> 눈물에 관한 상식 </h2>
+    <img
+        src=https://raw.githubusercontent.com/dongjoon-min/publicimages/6034aa39c7fcb3711a6ba2ae373c4e2bb1d68722/images/eye_sangsik.png>
+</div>
+
+<div class="result-container">
+    <h3>답변 요약</h3>
+    <ul>
+        {% for question_id, answer in answers.items() %}
+        <li><strong>질문 {{ question_id }}:</strong> {{ answer }}</li>
+        {% endfor %}
+    </ul>
+
+    <div class="share">
+        <h3>
+            <br>
+            <font color=red>페이지 공유하기</font>
+            <br>
+            (카톡, 인스타 등 링크 첨부)
+        </h3>
+
+
+    </div>
+
+
+
+    {% if special_message %}
+    <div class="special-message">
+        <p>{{ special_message }}</p>
+    </div>
+    {% endif %}
+</div>
+
+<!-- pack1_package_name, pack1_package_gusang, pack1_selling_price, pack2_package_name, pack2_package_gusang, pack2_selling_price -->
 {% endblock %}

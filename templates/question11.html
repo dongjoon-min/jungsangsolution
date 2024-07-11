@@ -1,14 +1,14 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>다음 중 건조감이 심해지는 상황이 있나요? <b>(중복선택 가능)</b></h2>
-<br>
-<form action="/submit/9" method="post">
-    <button type="button" value="VDT" class="option-button"><b>모니터/스마트폰</b>을 오래 보면 심해져요
+<h2>기저질환이 있으면 <b>모두</b> 체크해주세요.</h2>
+<form action="/submit/11" method="post">
+    <button type="button" value="circulation" class="option-button">고혈압, 관상동맥질환 등 심혈관계 질환
     </button>
-    <button type="button" value="space" class="option-button"><b>특정 공간</b>(예 : 사무실, 집 등)에
-        오래 있으면 심해져요.</button>
-    <button type="button" value="weather" class="option-button"><b>바깥 날씨나 계절 영향</b>을
-        받는 것 같아요. (미세먼지, 꽃가루, 겨울철, 바람 부는 날씨 등)</button>
+    <button type="button" value="thyroid" class="option-button">갑상선 질환
+    </button>
+    <button type="button" value="immune" class="option-button">자가면역질환
+    </button>
+    <button type="button" value="symnerve" class="option-button">기립성 저혈압, 이명, 두통 등</button>
     <button type="button" value="None" class="exclusive-button">해당되는 부분이 없어요
         / 잘 모르겠어요</button><br>
     <input type="hidden" name="answer" id="answer">
@@ -58,8 +58,5 @@
             return true; // 폼 제출 허용
         };
     });
-
-
-
 </script>
 {% endblock %}

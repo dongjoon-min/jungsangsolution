@@ -1,10 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>"눈꺼풀세정제*를 사용한 경험이 있나요? * 블레파졸, 오큐소프트 등"</h2>
+<h2>눈꺼풀이 붓거나, 온찜질을 하면 건조감이 완화되나요?</h2>
 <form id="question-form" action="/submit/6" method="post">
     <button type="submit" name="answer" value="Yes" class="option-button">예</button><br>
     <button type="submit" name="answer" value="No" class="option-button">아니오</button>
     <input type="hidden" name="existing_answers" value='{{ answers }}'>
 </form>
 {% endblock %}
-
