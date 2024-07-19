@@ -1,4 +1,5 @@
 /* 기본 스타일 및 색상 변수 설정 */
+/* 기본 스타일 및 색상 변수 설정 */
 :root {
   --primary-color: #5dade2; /* 부드러운 파란색 */
   --secondary-color: #0056b3; /* 더 진한 파란색으로 대비 강화 */
@@ -10,8 +11,11 @@
   --button-hover-background: #5dade2;
   --button-hover-text: #ffffff;
   --submit-button-color: #28a745;
+  --error-color: #e74c3c; /* 에러 메시지 색상 추가 */
+  --success-color: #2ecc71; /* 성공 메시지 색상 추가 */
 }
 
+/* 기본적인 바디 설정 */
 body {
   background-color: var(--background-color);
   font-family: "Helvetica Neue", Arial, sans-serif;
@@ -21,65 +25,73 @@ body {
   padding: 0;
   max-width: 900px;
   margin: auto;
+  box-sizing: border-box; /* 테두리와 패딩 포함하여 너비 계산 */
 }
 
+/* 폼 스타일 */
 form {
   display: flex;
   flex-direction: column; /* 세로로 정렬 */
   align-items: center; /* 중앙 정렬 */
 }
 
+/* 정보 박스 스타일 */
 .box {
   background-color: var(--box-background);
   border: 5px solid var(--primary-color);
   box-shadow: 0 4px 8px var(--shadow-color);
   border-radius: 8px;
   padding: 20px;
-  margin: auto;
-  max-width: 600px;
+  margin: auto;  
   width: 90%;
 }
 
+/* 제목 스타일 */
 h2 {
-  color: var(--primary-color);
+  color: var(--secondary-color);
   font-size: 24px;
   margin-bottom: 10px;
   text-align: center;
 }
 
+/* 헤더 스타일 */
 header {
   background-color: var(--secondary-color);
   color: var(--button-hover-text);
   padding: 20px;
 }
 
+/* 메인 컨텐츠 스타일 */
 main {
-  margin: 20px;
+  margin: 15px;
   padding: 20px;
 }
 
+/* 버튼 기본 스타일 */
 button {
   background-color: var(--box-background);
   color: var(--text-color);
   border: 2px solid var(--primary-color);
-  padding: 10px 20px;
+  padding: 20px 20px;
   cursor: pointer;
   font-size: 16px;
-  margin: 10px;
   transition: background-color 0.3s, color 0.3s;
   border-radius: 5px;
 }
 
+/* 버튼 호버 효과 */
 button:hover {
   background-color: var(--button-hover-background);
   color: var(--button-hover-text);
 }
 
+/* 활성 버튼 스타일 */
 button.active {
   background-color: var(--button-hover-background);
   color: var(--button-hover-text);
 }
 
+/* 옵션 버튼 스타일 */
 .option-button,
 .exclusive-button {
   border: 2px solid var(--secondary-color);
@@ -89,12 +101,14 @@ button.active {
   background-color: var(--box-background);
 }
 
+/* 선택된 옵션 버튼 스타일 */
 .option-button.selected,
 .exclusive-button.selected {
   background-color: var(--button-hover-background);
   color: var(--button-hover-text);
 }
 
+/* 제출 버튼 스타일 */
 .submit-button {
   border: 2px solid var(--submit-button-color);
   padding: 10px 20px;
@@ -103,11 +117,13 @@ button.active {
   background-color: var(--box-background);
 }
 
+/* 제출 버튼 호버 효과 */
 .submit-button:hover {
   background-color: var(--submit-button-color);
   color: var(--button-hover-text);
 }
 
+/* 결과 컨테이너 스타일 */
 .result-container {
   margin: 20px;
   padding: 20px;
@@ -119,16 +135,19 @@ button.active {
   margin: auto;
 }
 
+/* 결과 컨테이너 내 h3 스타일 */
 .result-container h3 {
   color: var(--text-color);
   margin-bottom: 15px;
 }
 
+/* 결과 컨테이너 목록 스타일 */
 .result-container ul {
   list-style-type: none;
   padding: 0;
 }
 
+/* 원인 목록 스타일 */
 .cause-list {
   font-size: 16px;
   list-style: none;
@@ -136,12 +155,14 @@ button.active {
   text-align: left;
 }
 
+/* 원인 목록 아이템 스타일 */
 .cause-list li {
   position: relative;
   padding-left: 50px;
   margin-bottom: 10px;
 }
 
+/* 원인 목록 아이템 점 스타일 */
 .cause-list li::before {
   content: "·";
   position: absolute;
@@ -152,15 +173,18 @@ button.active {
   font-size: 38px;
 }
 
+/* 결과 컨테이너 내 강조 텍스트 스타일 */
 .result-container ul li strong {
   color: var(--secondary-color);
 }
 
+/* 결과 컨테이너 내 문단 스타일 */
 .result-container p {
   color: #555;
   margin: 10px 0;
 }
 
+/* 키워드 박스 스타일 */
 .cause-keywords {
   margin-top: 20px;
   padding: 15px;
@@ -170,18 +194,21 @@ button.active {
   line-height: 1.6;
 }
 
+/* 할인 가격 스타일 */
 .discount-price {
   font-size: 20px;
   color: red; /* 할인된 가격은 빨간색으로 표시 */
   font-weight: bold;
 }
 
+/* 원래 가격 스타일 */
 .original-price {
   font-size: 16px;
   text-decoration: line-through; /* 취소선 */
   color: grey;
 }
 
+/* 세일 태그 스타일 */
 .sale-tag {
   color: white;
   background-color: red;
@@ -191,36 +218,42 @@ button.active {
   display: inline-block;
 }
 
+/* 할인율 표시 스타일 */
 .percentage-off {
   color: green;
   font-weight: bold;
   font-size: 16px;
 }
 
+/* 하이라이트 스타일 */
 .highlight_1 {
   color: var(--secondary-color);
   font-weight: bold;
 }
 
+/* 두 번째 하이라이트 스타일 */
 .highlight_2 {
   color: var(--accent-color);
   font-weight: bold;
 }
 
+/* 세 번째 하이라이트 스타일 */
 .highlight_3 {
   color: rgb(222, 13, 13);
   font-weight: bold;
 }
 
+/* 평가 막대 스타일 */
 .rating-scale {
   display: flex;
   justify-content: center; /* 막대기들을 중앙으로 정렬 */
   align-items: center; /* 세로 정렬 추가 */
   width: 100%;
   max-width: 600px;
-  margin: 0 auto; /* 중앙 정렬 */
+  margin: 0 auto; /* 중앙 정레나 */
 }
 
+/* 평가 막대 호버 효과 */
 .rate-bar {
   flex-grow: 1;
   padding: 10px;
@@ -234,10 +267,12 @@ button.active {
   background-color: var(--color); /* 호버시 색상 변화 */
 }
 
+/* 출력 스타일 */
 #output {
   font-weight: bold;
 }
 
+/* 패키지 문구 스타일 */
 .pack-sentence {
   background-color: #b0c4de; /* 회색 배경 */
   color: #1c1f4a;
@@ -248,6 +283,7 @@ button.active {
   text-align: center; /* 텍스트 가운데 정렬 */
 }
 
+/* 패키지 구상 스타일 */
 .pack-gusang {
   background-color: #483d8b; /* 어두운 슬레이트 블루 */
   color: #e6e6fa; /* 라벤더 색상 글자 */
@@ -257,38 +293,197 @@ button.active {
   text-align: center;
 }
 
-/* 반응형 디자인 설정 */
-@media (max-width: 768px) {
+/* 카테고리 목록 스타일 */
+ul.category-list {
+  list-style: none; /* 기본 목록 스타일 제거 */
+  padding: 0; /* 기본 패딩 제거 */
+}
+
+/* 카테고리 목록 아이템 스타일 */
+ul.category-list li {
+  display: inline-block;
+}
+
+.category-button {
+  background-color: #fff; /* 기본 배경색 */
+  border: 2.5px solid #3498db; /* 테두리색 */
+  color: #0056b3; /* 기본 글자색 */
+  padding: 10px 20px; /* 상하, 좌우 패딩 */
+  cursor: pointer;
+  font-size: 1rem; /* 16px 대신 1rem 사용 */
+  border-radius: 50px; /* 타원형 모양 */
+  transition: background-color 0.3s, color 0.3s;
+  margin: 4px; /* 버튼 간격 */
+  font-weight: bold;
+}
+
+/* 카테고리 버튼 호버 효과 */
+.category-button:hover {
+  background-color: #2c3e50; /* 호버 시 배경색 (예: 진한 파란색) */
+  color: #ecf0f1; /* 호버 시 글자색 (예: 밝은 회색) */
+}
+
+/* 진행 상황 컨테이너 스타일 */
+.progress-container {
+  width: 100%;
+  background-color: #515151;
+  border-radius: 5px;
+  overflow: hidden;
+  position: relative;
+}
+
+/* 진행 막대 스타일 */
+.progress-bar {
+  width: 0;
+  height: 30px;
+  background-color: #28a745; /* 더 진한 녹색으로 대비 강화 */
+  text-align: center;
+  color: white;
+  line-height: 30px; /* 텍스트를 세로로 중앙에 배치 */
+  border-radius: 5px;
+  transition: width 0.3s;
+  position: relative;
+}
+
+/* 진행 텍스트 스타일 */
+#progress-text {
+  position: absolute;
+  width: 100%;
+  left: 0;
+  top: 0;
+  text-align: center;
+  color: white; /* 흰색 텍스트로 대비 강화 */
+  font-weight: bold; /* 텍스트를 굵게 표시 */
+}
+
+/* 접이식 컨테이너 스타일 */
+.collapsible {
+  background-color: #f9f9f9;
+  color: #444;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 18px;
+  font-weight: bold;
+  transition: background-color 0.4s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* 활성 상태 및 호버 효과 */
+.active,
+.collapsible:hover {
+  background-color: #ccc;
+}
+
+#hiddencomment {
+  padding: 0 18px;
+  display: none; /* 시작 시 숨김 상태 */
+  overflow: hidden;
+  background-color: #f1f1f1;
+  transition: max-height 0.2s ease-out;
+}
+
+/* 접이식 아이콘 스타일 */
+.collapsible .icon {
+  font-size: 20px;
+  transition: transform 0.4s ease;
+}
+
+/* 활성 아이콘 회전 효과 */
+.collapsible.active .icon {
+  transform: rotate(180deg); /* 아이콘 회전 */
+}
+
+/* 하이라이트 텍스트 스타일 */
+.highlight {
+  background-color: yellow;
+  cursor: pointer;
+}
+
+#type-explanation-image {
+  max-width: 100% !important; /* 이미지가 컨테이너 너비를 초과하지 않도록 설정 */
+  height: auto !important; /* 이미지 높이가 자동으로 조절되도록 설정 */
+  display: block !important; /* 이미지를 블록 요소로 설정하여 줄 바꿈 */
+  margin: 0 auto !important; /* 이미지를 수평 중앙에 배치 */
+}
+
+
+/* 작은 화면 (모바일) */
+@media (max-width: 752px) {
+
+  html {
+    font-size: 12px; /* 기본 폰트 크기를 줄임 */
+  }
+
+  main {
+    margin: 7.5px; /* 상하좌우 마진을 10px로 줄임 */
+    padding: 5px; /* 패딩을 5px로 줄임 */
+  }
+
+  .box, .result-container {
+    width: 100%; /* 부모 요소 너비의 100% */
+    padding: 7.5px; /* 패딩 감소로 전체 크기 줄임 */
+    box-sizing: border-box; /* 테두리와 패딩 포함하여 너비 계산 */
+  } 
+
   header,
   main {
-    padding: 15px;
+    padding: 10px; /* 헤더와 메인 컨텐츠의 패딩 조정 */
+  }
+
+  img {
+    max-width: 95%; /* 작은 화면에서 이미지 최대 너비 조정 */
   }
 
   button {
-    font-size: 14px;
-    padding: 8px 16px;
-    width: 100px;
+    padding: 12px 24px; /* 버튼 크기 조정 */
   }
 }
 
-@media (min-width: 600px) and (max-width: 992px) {
+/* 중간 화면 (태블릿) */
+@media (min-width: 753px) and (max-width: 992px) {
   .box,
   .result-container {
-    width: 80%;
+    width: 85%; /* 조금 더 넓은 화면 사용 */
+  }
+
+  img {
+    max-width: 90%; /* 작은 화면에서 이미지 최대 너비 조정 */
+  }
+
+  header,
+  main {
+    padding: 20px; /* 헤더와 메인 컨텐츠의 패딩 증가 */
+  }
+
+  button {
+    padding: 15px 30px; /* 버튼 크기 증가 */
   }
 }
 
-@media (min-width: 992px) {
-  h2 {
-    font-size: 1.75em;
-  }
-
+/* 큰 화면 (데스크탑) */
+@media (min-width: 993px) {
   .box,
   .result-container {
-    width: 80%;
+    width: 75%; /* 데스크탑에 적합한 너비 */
+    padding: 20px; /* 패딩 증가 */
   }
 
-  .cause-list {
-    font-size: 1.2em;
+  img {
+    max-width: 80%; /* 작은 화면에서 이미지 최대 너비 조정 */
+  }
+
+  header,
+  main {
+    padding: 25px; /* 더 큰 패딩 제공 */
+  }
+
+  button {
+    padding: 20px 40px; /* 더 큰 버튼 */
   }
 }

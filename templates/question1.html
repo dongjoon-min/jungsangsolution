@@ -1,12 +1,40 @@
 {% extends "base.html" %}
 {% block content %}
+
+<div id="progress-data" data-question-id="{{ question_id }}"></div>
+<div class="progress-container">
+    <div class="progress-bar" id="progress-bar">
+        <span id="progress-text"></span>
+    </div>
+</div>
+<br>
+
 <h2>나이대를 선택해주세요</h2>
 <form id="question-form" action="/submit/1" method="post">
-    <button type="submit" name="answer" value="20s" class="option-button">20대 이하</button><br>
-    <button type="submit" name="answer" value="30s" class="option-button">30대</button><br>
-    <button type="submit" name="answer" value="40s" class="option-button">40대</button><br>
-    <button type="submit" name="answer" value="50s" class="option-button">50대</button><br>
+    <button type="submit" name="answer" value="20s" class="option-button">20대 이하</button>
+    <button type="submit" name="answer" value="30s" class="option-button">30대</button>
+    <button type="submit" name="answer" value="40s" class="option-button">40대</button>
+    <button type="submit" name="answer" value="50s" class="option-button">50대</button>
     <button type="submit" name="answer" value="60s" class="option-button">60대 이상</button>
     <input type="hidden" name="existing_answers" value="{{ answers | tojson }}">
 </form>
+
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const progressData = document.getElementById('progress-data');
+        const currentQuestionId = progressData.dataset.questionId;
+        updateProgressBar(currentQuestionId);
+    });
+
+    function updateProgressBar(questionId) {
+        const totalQuestions = 13;
+        const progressBar = document.getElementById('progress-bar');
+        const progressText = document.getElementById('progress-text');
+        const progress = (questionId / totalQuestions) * 100;
+
+        progressBar.style.width = progress + '%';
+        progressText.textContent = questionId + ' / ' + totalQuestions;
+    }
+</script>
+
 {% endblock %}

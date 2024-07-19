@@ -1,9 +1,93 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>안구건조감이 있나요?</h2>
-<form id="question-form" action="/submit/2" method="post">
-    <button type="submit" name="answer" value="Yes" class="option-button">예</button><br>
-    <button type="submit" name="answer" value="No" class="option-button">아니오</button>
-    <input type="hidden" name="existing_answers" value='{{ answers }}'>
+
+<div id="progress-data" data-question-id="{{ question_id }}"></div>
+<div class="progress-container">
+    <div class="progress-bar" id="progress-bar">
+        <span id="progress-text"></span>
+    </div>
+</div>
+<br>
+
+<h2>지난 한 주 동안 아래 증상을 겪은 적이 있나요?
+    <br>
+    <font size=5px>(1/2)</font>
+</h2>
+<h3>(중복선택 가능)</h3>
+<form action="/submit/2" method="post">
+    <button type="button" value="dryness" class="option-button">안구건조</button>
+    <button type="button" value="sand" class="option-button">모래가 들어간 듯한 느낌</button>
+    <button type="button" value="red" class="option-button">눈의 충혈</button>
+    <button type="button" value="pain" class="option-button">눈의 통증 (아픔, 쓰림)</button>
+    <button type="button" value="light" class="option-button">밝은 빛에 민감함</button>
+    <button type="button" value="No" class="exclusive-button">이 중 해당되는 증상이 없어요.</button><br>
+    <input type="hidden" name="answer" id="answer">
+    <input type="hidden" name="existing_answers" value="{{ answers }}">
+    <button type="submit" class="submit-button">다음</button>
 </form>
+
+<!-- "dryness", "sand", "red", "pain", "light" -->
+
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const progressData = document.getElementById('progress-data');
+        const currentQuestionId = progressData.dataset.questionId;
+        updateProgressBar(currentQuestionId);
+    });
+
+    function updateProgressBar(questionId) {
+        const totalQuestions = 13;
+        const progressBar = document.getElementById('progress-bar');
+        const progressText = document.getElementById('progress-text');
+        const progress = (questionId / totalQuestions) * 100;
+
+        progressBar.style.width = progress + '%';
+        progressText.textContent = questionId + ' / ' + totalQuestions;
+    }
+
+    // 다중 선택
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const buttons = document.querySelectorAll('.option-button');
+        const exclusiveButton = document.querySelector('.exclusive-button');
+        const answerInput = document.getElementById('answer');
+
+        buttons.forEach(button => {
+            button.addEventListener('click', function () {
+                if (exclusiveButton.classList.contains('selected')) {
+                    exclusiveButton.classList.remove('selected');
+                }
+                this.classList.toggle('selected');
+                updateAnswer();
+            });
+        });
+
+        exclusiveButton.addEventListener('click', function () {
+            buttons.forEach(button => button.classList.remove('selected'));
+            this.classList.add('selected');
+            updateAnswer();
+        });
+
+        function updateAnswer() {
+            const selectedButtons = document.querySelectorAll('.option-button.selected');
+            const selectedValues = Array.from(selectedButtons).map(button => button.value);
+
+            if (exclusiveButton.classList.contains('selected')) {
+                selectedValues.push(exclusiveButton.value);
+            }
+
+            answerInput.value = selectedValues.join(',');
+        }
+
+        document.querySelector('form').onsubmit = function () {
+            // 제출 시 answerInput 값 확인
+            if (!answerInput.value) {
+                alert('옵션을 선택해 주세요.');
+                return false; // 폼 제출 취소
+            }
+            return true; // 폼 제출 허용
+        };
+    });
+</script>
+
 {% endblock %}

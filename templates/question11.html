@@ -1,49 +1,76 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>기저질환이 있으면 <b>모두</b> 체크해주세요.</h2>
+<br>
+<div id="progress-data" data-question-id="{{ question_id }}"></div>
+<div class="progress-container">
+    <div class="progress-bar" id="progress-bar">
+        <span id="progress-text"></span>
+    </div>
+</div>
+<br>
+<h2>아래 보기 중, 복용 중인 의약품이 있으면 선택해 주세요. <b>(중복선택 가능)</b></h2>
+<br>
 <form action="/submit/11" method="post">
-    <button type="button" value="circulation" class="option-button">고혈압, 관상동맥질환 등 심혈관계 질환
-    </button>
-    <button type="button" value="thyroid" class="option-button">갑상선 질환
-    </button>
-    <button type="button" value="immune" class="option-button">자가면역질환
-    </button>
-    <button type="button" value="symnerve" class="option-button">기립성 저혈압, 이명, 두통 등</button>
-    <button type="button" value="None" class="exclusive-button">해당되는 부분이 없어요
-        / 잘 모르겠어요</button><br>
+    <button type="button" value="antihistamine" class="option-button"><b>항히스타민제</b></button>
+    <button type="button" value="antidepressant" class="option-button"><b>항우울제</b></button>
+    <button type="button" value="digestive" class="option-button"><b>위장약<font size=2px> (소화제, 진경제 등)</font></b></button>
+    <button type="button" value="None" class="exclusive-button">해당사항이 없어요.</button><br>
     <input type="hidden" name="answer" id="answer">
     <input type="hidden" name="existing_answers" value="{{ answers }}">
     <button type="submit" class="submit-button">다음</button>
 </form>
 
+
 <script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const progressData = document.getElementById('progress-data');
+        const currentQuestionId = progressData.dataset.questionId;
+        updateProgressBar(currentQuestionId);
+    });
+
+    function updateProgressBar(questionId) {
+        const totalQuestions = 13;
+        const progressBar = document.getElementById('progress-bar');
+        const progressText = document.getElementById('progress-text');
+        const progress = (questionId / totalQuestions) * 100;
+
+        progressBar.style.width = progress + '%';
+        progressText.textContent = questionId + ' / ' + totalQuestions;
+    }
+
+    // 다중 선택
+
     document.addEventListener('DOMContentLoaded', function () {
         const buttons = document.querySelectorAll('.option-button');
-        const exclusiveButton = document.querySelector('.exclusive-button');
+        const exclusiveButtons = document.querySelectorAll('.exclusive-button');
         const answerInput = document.getElementById('answer');
 
         buttons.forEach(button => {
             button.addEventListener('click', function () {
-                if (exclusiveButton.classList.contains('selected')) {
+                exclusiveButtons.forEach(exclusiveButton => {
                     exclusiveButton.classList.remove('selected');
-                }
+                });
                 this.classList.toggle('selected');
                 updateAnswer();
             });
         });
 
-        exclusiveButton.addEventListener('click', function () {
-            buttons.forEach(button => button.classList.remove('selected'));
-            this.classList.add('selected');
-            updateAnswer();
+        exclusiveButtons.forEach(exclusiveButton => {
+            exclusiveButton.addEventListener('click', function () {
+                buttons.forEach(button => button.classList.remove('selected'));
+                exclusiveButtons.forEach(button => button.classList.remove('selected'));
+                this.classList.add('selected');
+                updateAnswer();
+            });
         });
 
         function updateAnswer() {
             const selectedButtons = document.querySelectorAll('.option-button.selected');
             const selectedValues = Array.from(selectedButtons).map(button => button.value);
 
-            if (exclusiveButton.classList.contains('selected')) {
-                selectedValues.push(exclusiveButton.value);
+            const selectedExclusiveButton = document.querySelector('.exclusive-button.selected');
+            if (selectedExclusiveButton) {
+                selectedValues.push(selectedExclusiveButton.value);
             }
 
             answerInput.value = selectedValues.join(',');
@@ -58,5 +85,7 @@
             return true; // 폼 제출 허용
         };
     });
+
+
 </script>
 {% endblock %}

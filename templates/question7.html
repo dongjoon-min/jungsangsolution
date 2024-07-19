@@ -1,17 +1,44 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>눈꺼풀세정제*를 사용한 경험이 있나요?</h2>
+
 <br>
-* 눈꺼풀 세정제 : 블레파졸, 오큐소프트 등
+<div id="progress-data" data-question-id="{{ question_id }}"></div>
+<div class="progress-container">
+    <div class="progress-bar" id="progress-bar">
+        <span id="progress-text"></span>
+    </div>
+</div>
 <br>
-<br>
-<img src=https://raw.githubusercontent.com/dongjoon-min/publicimages/main/images/%EB%B8%94%EB%A0%88%ED%8C%8C%EC%A1%B8%2C%20%EC%98%A4%ED%81%90%EC%86%8C%ED%94%84%ED%8A%B8.png
-    width="50%" , height="50%">
-<br>
+<h2>하루에 스마트폰/모니터를 보는 시간이 얼마나 되시나요?
+    <br>(연속 시간 기준)
+</h2>
 <br>
 <form id="question-form" action="/submit/7" method="post">
-    <button type="submit" name="answer" value="Yes" class="option-button">예</button>
-    <button type="submit" name="answer" value="No" class="option-button">아니오</button>
+    <button type="submit" name="answer" value="2h" class="option-button">2시간 이상</button>
+    <button type="submit" name="answer" value="1h" class="option-button">1~2시간</button>
+    <button type="submit" name="answer" value="0" class="option-button">1시간 미만</button>
     <input type="hidden" name="existing_answers" value='{{ answers }}'>
 </form>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const progressData = document.getElementById('progress-data');
+        const currentQuestionId = progressData.dataset.questionId;
+        updateProgressBar(currentQuestionId);
+    });
+
+    function updateProgressBar(questionId) {
+        const totalQuestions = 13;
+        const progressBar = document.getElementById('progress-bar');
+        const progressText = document.getElementById('progress-text');
+        const progress = (questionId / totalQuestions) * 100;
+
+        progressBar.style.width = progress + '%';
+        progressText.textContent = questionId + ' / ' + totalQuestions;
+    }
+
+    // 다중 선택 
+
+</script>
 {% endblock %}

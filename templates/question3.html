@@ -1,103 +1,94 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>눈 건조로 인한 불편함은 어느 정도인가요? (1~10점)</h2>
-<form id="ratingForm" action="/submit/3" method="post">
-    <div class="rating-scale">
-        <div class="rate-bar" onclick="selectRating(1)" style="background-color: #ccc;">1</div>
-        <div class="rate-bar" onclick="selectRating(2)" style="background-color: #ccc;">2</div>
-        <div class="rate-bar" onclick="selectRating(3)" style="background-color: #ccc;">3</div>
-        <div class="rate-bar" onclick="selectRating(4)" style="background-color: #ccc;">4</div>
-        <div class="rate-bar" onclick="selectRating(5)" style="background-color: #ccc;">5</div>
-        <div class="rate-bar" onclick="selectRating(6)" style="background-color: #ccc;">6</div>
-        <div class="rate-bar" onclick="selectRating(7)" style="background-color: #ccc;">7</div>
-        <div class="rate-bar" onclick="selectRating(8)" style="background-color: #ccc;">8</div>
-        <div class="rate-bar" onclick="selectRating(9)" style="background-color: #ccc;">9</div>
-        <div class="rate-bar" onclick="selectRating(10)" style="background-color: #ccc;">10</div>
-        <br>
+
+<div id="progress-data" data-question-id="{{ question_id }}"></div>
+<div class="progress-container">
+    <div class="progress-bar" id="progress-bar">
+        <span id="progress-text"></span>
     </div>
-    <input type="hidden" name="answer" id="selectedRating">
-    <input type="hidden" name="existing_answers" id="existingAnswers" value='{{ answers }}'>
+</div>
+<br>
+
+<h2>지난 한 주 동안 아래 증상을 겪은 적이 있나요?
     <br>
-    <div>선택 점수: <span id="output">None</span></div>
-    <br>
-    <button type="submit"> 다음 </button>
+    <font size=5px>(2/2)</font>
+</h2>
+<h3>(중복선택 가능)</h3>
+<form action="/submit/3" method="post">
+    <button type="button" value="sight" class="option-button">시야가 흐리고 침침</button>
+    <button type="button" value="burning" class="option-button">눈이 타는 듯한 작열감</button>
+    <button type="button" value="soreness" class="option-button">눈 시림 & 눈물</button>
+    <button type="button" value="swell" class="option-button">눈꺼풀 붓기</button>
+    <button type="button" value="No" class="exclusive-button">이 중 해당되는 증상이 없어요.</button><br>
+    <input type="hidden" name="answer" id="answer">
+    <input type="hidden" name="existing_answers" value="{{ answers }}">
+    <button type="submit" class="submit-button">다음</button>
 </form>
 
+
+
+<!-- sight, burning, soreness, swell -->
+
 <script>
-    const colorMapping = {
-        1: "hsl(108, 60%, 70%)",
-        2: "hsl(96, 60%, 70%)",
-        3: "hsl(84, 60%, 70%)",
-        4: "hsl(72, 60%, 70%)",
-        5: "hsl(60, 60%, 70%)",
-        6: "hsl(48, 60%, 70%)",
-        7: "hsl(36, 60%, 70%)",
-        8: "hsl(24, 60%, 70%)",
-        9: "hsl(12, 60%, 70%)",
-        10: "hsl(0, 60%, 70%)"
-    };
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const progressData = document.getElementById('progress-data');
+        const currentQuestionId = progressData.dataset.questionId;
+        updateProgressBar(currentQuestionId);
+    });
 
-    function selectRating(rating) {
-        const bars = document.querySelectorAll('.rate-bar');
-        // Reset all bars to initial color
-        bars.forEach(bar => bar.style.backgroundColor = '#ccc');
+    function updateProgressBar(questionId) {
+        const totalQuestions = 13;
+        const progressBar = document.getElementById('progress-bar');
+        const progressText = document.getElementById('progress-text');
+        const progress = (questionId / totalQuestions) * 100;
 
-        // Set selected bar color and update the form field
-        document.getElementById('selectedRating').value = rating;  // Update form field
-        bars[rating - 1].style.backgroundColor = colorMapping[rating];  // Apply color
-
-        // Update existing answers
-        const existingAnswers = document.getElementById('existingAnswers');
-        let answers = existingAnswers.value ? JSON.parse(existingAnswers.value) : {};
-        answers["3"] = `${rating}점`;  // Store as "n점"
-        existingAnswers.value = JSON.stringify(answers);
-
-        // Update output display
-        document.getElementById('output').textContent = `${rating}점`;
+        progressBar.style.width = progress + '%';
+        progressText.textContent = questionId + ' / ' + totalQuestions;
     }
 
-    // Apply hover effect to each bar
-    document.querySelectorAll('.rate-bar').forEach(bar => {
-        bar.addEventListener('mouseover', function () {
-            this.style.backgroundColor = colorMapping[parseInt(this.textContent)];
+    // 다중 선택 
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const buttons = document.querySelectorAll('.option-button');
+        const exclusiveButton = document.querySelector('.exclusive-button');
+        const answerInput = document.getElementById('answer');
+
+        buttons.forEach(button => {
+            button.addEventListener('click', function () {
+                if (exclusiveButton.classList.contains('selected')) {
+                    exclusiveButton.classList.remove('selected');
+                }
+                this.classList.toggle('selected');
+                updateAnswer();
+            });
         });
-        bar.addEventListener('mouseout', function () {
-            if (this.textContent !== document.getElementById('selectedRating').value) {
-                this.style.backgroundColor = '#ccc';
+
+        exclusiveButton.addEventListener('click', function () {
+            buttons.forEach(button => button.classList.remove('selected'));
+            this.classList.add('selected');
+            updateAnswer();
+        });
+
+        function updateAnswer() {
+            const selectedButtons = document.querySelectorAll('.option-button.selected');
+            const selectedValues = Array.from(selectedButtons).map(button => button.value);
+
+            if (exclusiveButton.classList.contains('selected')) {
+                selectedValues.push(exclusiveButton.value);
             }
-        });
+
+            answerInput.value = selectedValues.join(',');
+        }
+
+        document.querySelector('form').onsubmit = function () {
+            // 제출 시 answerInput 값 확인
+            if (!answerInput.value) {
+                alert('옵션을 선택해 주세요.');
+                return false; // 폼 제출 취소
+            }
+            return true; // 폼 제출 허용
+        };
     });
 </script>
+
 {% endblock %}
-
-<style>
-    /* 충돌할 수 있는 다른 CSS 예시들 */
-
-    body {
-        display: flex;
-        justify-content: center;
-        /* 전체 페이지 중앙 정렬 */
-        align-items: center;
-        /* 세로 중앙 정렬 */
-        height: 100vh;
-        /* 전체 페이지 높이 설정 */
-    }
-
-    form {
-        display: flex;
-        flex-direction: column;
-        /* 세로로 정렬 */
-        align-items: center;
-        /* 중앙 정렬 */
-    }
-
-    h2 {
-        text-align: center;
-        /* 제목 중앙 정렬 */
-    }
-
-    button {
-        margin-top: 10px;
-        /* 버튼 상단 여백 */
-    }
-</style>

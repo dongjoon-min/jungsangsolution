@@ -1,10 +1,46 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>하루에 스마트폰/모니터를 보는 시간이 얼마나 되시나요? (연속 시간 기준)</h2>
+<br>
+<div id="progress-data" data-question-id="{{ question_id }}"></div>
+<div class="progress-container">
+    <div class="progress-bar" id="progress-bar">
+        <span id="progress-text"></span>
+    </div>
+</div>
+<br>
+<h2>이소트레티노인* 성분의 의약품을 복용 중이신가요?</h2>
+<br>
+<span class=highlight_1>이소트레티노인 : 여드름이 심할 때 피지조절제로 처방 하에 복용하는 의약품, 비타민 A 유도체</span>
+<br>
+상품명 : 이소티논연질캡슐, 니메겐연질캡슐, 제로큐탄연질캡슐, 트레논연질캡슐 등
+<br>
+<br>
+<img src=https://raw.githubusercontent.com/dongjoon-min/publicimages/main/images/isotretinoin.png width="85%">
+<br>
+<br>
 <form id="question-form" action="/submit/10" method="post">
-    <button type="submit" name="answer" value="2h" class="option-button">2시간 이상</button><br>
-    <button type="submit" name="answer" value="1h" class="option-button">1~2시간</button><br>
-    <button type="submit" name="answer" value="0" class="option-button">1시간 미만</button>
+    <button type="submit" name="answer" value="isotretinoin" class="option-button">예</button>
+    <button type="submit" name="answer" value="None" class="option-button">아니오</button>
     <input type="hidden" name="existing_answers" value='{{ answers }}'>
 </form>
+
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const progressData = document.getElementById('progress-data');
+        const currentQuestionId = progressData.dataset.questionId;
+        updateProgressBar(currentQuestionId);
+    });
+
+    function updateProgressBar(questionId) {
+        const totalQuestions = 13;
+        const progressBar = document.getElementById('progress-bar');
+        const progressText = document.getElementById('progress-text');
+        const progress = (questionId / totalQuestions) * 100;
+
+        progressBar.style.width = progress + '%';
+        progressText.textContent = questionId + ' / ' + totalQuestions;
+    }
+
+</script>
+
 {% endblock %}

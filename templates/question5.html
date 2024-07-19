@@ -1,9 +1,45 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>눈물이 자주 나는데도 건조감이 있나요?</h2>
+
+<br>
+<div id="progress-data" data-question-id="{{ question_id }}"></div>
+<div class="progress-container">
+    <div class="progress-bar" id="progress-bar">
+        <span id="progress-text"></span>
+    </div>
+</div>
+<br>
+<h2>
+    <font color=red>온찜질</font>을 하고 나면 불편함이 완화되나요?
+</h2>
+<br>
 <form id="question-form" action="/submit/5" method="post">
-    <button type="submit" name="answer" value="Yes" class="option-button">예</button><br>
+    <button type="submit" name="answer" value="Yes" class="option-button">예</button>
     <button type="submit" name="answer" value="No" class="option-button">아니오</button>
+    <button type="submit" name="answer" value="notyet" class="option-button">아직 안 해봤어요</button>
     <input type="hidden" name="existing_answers" value='{{ answers }}'>
 </form>
+
+
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const progressData = document.getElementById('progress-data');
+        const currentQuestionId = progressData.dataset.questionId;
+        updateProgressBar(currentQuestionId);
+    });
+
+    function updateProgressBar(questionId) {
+        const totalQuestions = 13;
+        const progressBar = document.getElementById('progress-bar');
+        const progressText = document.getElementById('progress-text');
+        const progress = (questionId / totalQuestions) * 100;
+
+        progressBar.style.width = progress + '%';
+        progressText.textContent = questionId + ' / ' + totalQuestions;
+    }
+
+    // 다중 선택 
+</script>
 {% endblock %}

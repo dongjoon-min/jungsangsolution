@@ -1,22 +1,46 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>다음 중 건조감이 심해지는 상황이 있나요? <b>(중복선택 가능)</b></h2>
+<br>
+<div id="progress-data" data-question-id="{{ question_id }}"></div>
+<div class="progress-container">
+    <div class="progress-bar" id="progress-bar">
+        <span id="progress-text"></span>
+    </div>
+</div>
+<br>
+<h2>다음 중 눈의 불편함이 심해지는 <br>환경, 상황이 있나요? <b>(중복선택 가능)</b></h2>
 <br>
 <form action="/submit/9" method="post">
-    <button type="button" value="VDT" class="option-button"><b>모니터/스마트폰</b>을 오래 보면 심해져요
-    </button>
-    <button type="button" value="space" class="option-button"><b>특정 공간</b>(예 : 사무실, 집 등)에
-        오래 있으면 심해져요.</button>
-    <button type="button" value="weather" class="option-button"><b>바깥 날씨나 계절 영향</b>을
-        받는 것 같아요. (미세먼지, 꽃가루, 겨울철, 바람 부는 날씨 등)</button>
-    <button type="button" value="None" class="exclusive-button">해당되는 부분이 없어요
-        / 잘 모르겠어요</button><br>
+    <button type="button" value="wind" class="option-button"><b>바람이 많이 부는 날씨</b></button>
+    <button type="button" value="aircon" class="option-button"><b>에어컨 또는 히터를 직접 쐴 때</b></button>
+    <button type="button" value="space" class="option-button"><b>특정 실내 공간</b>(예 : 사무실, 집 등)에 오래 머무를 때</button>
+    <button type="button" value="getup" class="option-button"><b>아침에 일어날 때</b> (=기상 시)</button>
+    <button type="button" value="cosmetics" class="option-button"><b>눈 주변 화장품 사용 이후</b></button>
+    <button type="button" value="None" class="exclusive-button">없어요 / 잘 모르겠어요</button><br>
     <input type="hidden" name="answer" id="answer">
     <input type="hidden" name="existing_answers" value="{{ answers }}">
     <button type="submit" class="submit-button">다음</button>
 </form>
 
+
 <script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const progressData = document.getElementById('progress-data');
+        const currentQuestionId = progressData.dataset.questionId;
+        updateProgressBar(currentQuestionId);
+    });
+
+    function updateProgressBar(questionId) {
+        const totalQuestions = 13;
+        const progressBar = document.getElementById('progress-bar');
+        const progressText = document.getElementById('progress-text');
+        const progress = (questionId / totalQuestions) * 100;
+
+        progressBar.style.width = progress + '%';
+        progressText.textContent = questionId + ' / ' + totalQuestions;
+    }
+
+    // 다중 선택 
     document.addEventListener('DOMContentLoaded', function () {
         const buttons = document.querySelectorAll('.option-button');
         const exclusiveButton = document.querySelector('.exclusive-button');

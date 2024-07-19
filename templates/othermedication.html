@@ -1,48 +1,19 @@
 {% extends "base.html" %}
 {% block content %}
+<h2>다른 복용 중인 의약품이 있으면 선택해 주세요. <b>(중복선택 가능)</b></h2>
 <br>
-<div id="progress-data" data-question-id="{{ question_id }}"></div>
-<div class="progress-container">
-    <div class="progress-bar" id="progress-bar">
-        <span id="progress-text"></span>
-    </div>
-</div>
-<br>
-
-<h2>눈 수술을 받은 적이 있으시거나, <br>렌즈를 자주 착용하시나요?</h2>
-* 중복선택 가능
-<br>
-<form action="/submit/8" method="post">
-    <button type="button" value="lasiklasec" class="option-button">시력 교정술을 받았어요. <font size=2px>(라식, 라섹, 렌즈삽입술 등)</font>
-    </button>
-    <button type="button" value="surgery1" class="option-button">눈 성형수술을 받았어요. <font size=2px>(앞트임, 뒷트임 등)</font>
-    </button>
-    <button type="button" value="surgery2" class="option-button">백내장, 녹내장 등 눈 질환과 관련된 수술을 받았어요.</button>
-    <button type="button" value="lens" class="option-button">콘택트 렌즈를 종종 착용해요.</button>
-    <button type="button" value="None" class="exclusive-button">해당되는 부분이 없어요</button><br>
+<form action="/submit/11" method="post">
+    <button type="button" value="antihistamine" class="option-button"><b>항히스타민제</b></button>
+    <button type="button" value="antidepression" class="option-button"><b>항우울제</b></button>
+    <button type="button" value="digestive" class="option-button"><b>위장약<font size=2px>(소화제, 진경제 등)</font></b></button>
+    <button type="button" value="othermedication" class="option-button">이 중에 없지만 의약품을 복용하고 있어요</button>
+    <button type="button" value="None" class="exclusive-button">잘 모르겠어요</button><br>
     <input type="hidden" name="answer" id="answer">
     <input type="hidden" name="existing_answers" value="{{ answers }}">
     <button type="submit" class="submit-button">다음</button>
 </form>
 
 <script>
-    document.addEventListener('DOMContentLoaded', (event) => {
-        const progressData = document.getElementById('progress-data');
-        const currentQuestionId = progressData.dataset.questionId;
-        updateProgressBar(currentQuestionId);
-    });
-
-    function updateProgressBar(questionId) {
-        const totalQuestions = 13;
-        const progressBar = document.getElementById('progress-bar');
-        const progressText = document.getElementById('progress-text');
-        const progress = (questionId / totalQuestions) * 100;
-
-        progressBar.style.width = progress + '%';
-        progressText.textContent = questionId + ' / ' + totalQuestions;
-    }
-
-    // 다중 선택 
     document.addEventListener('DOMContentLoaded', function () {
         const buttons = document.querySelectorAll('.option-button');
         const exclusiveButton = document.querySelector('.exclusive-button');
@@ -84,5 +55,8 @@
             return true; // 폼 제출 허용
         };
     });
+
+
+
 </script>
 {% endblock %}

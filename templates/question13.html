@@ -8,21 +8,20 @@
     </div>
 </div>
 <br>
-
-<h2>눈 수술을 받은 적이 있으시거나, <br>렌즈를 자주 착용하시나요?</h2>
-* 중복선택 가능
-<br>
-<form action="/submit/8" method="post">
-    <button type="button" value="lasiklasec" class="option-button">시력 교정술을 받았어요. <font size=2px>(라식, 라섹, 렌즈삽입술 등)</font>
+<h2>해당하는 생활습관에 체크해주세요. (중복선택 가능)</h2>
+<form action="/submit/13" method="post">
+    <button type="button" value="stress" class="option-button">평소 스트레스를 많이 받는 편이에요
     </button>
-    <button type="button" value="surgery1" class="option-button">눈 성형수술을 받았어요. <font size=2px>(앞트임, 뒷트임 등)</font>
+    <button type="button" value="sleep" class="option-button">하루 평균 수면 시간이 6시간 미만이에요
     </button>
-    <button type="button" value="surgery2" class="option-button">백내장, 녹내장 등 눈 질환과 관련된 수술을 받았어요.</button>
-    <button type="button" value="lens" class="option-button">콘택트 렌즈를 종종 착용해요.</button>
+    <button type="button" value="coffee" class="option-button">하루에 커피를 2잔 이상 마셔요
+    </button>
+    <button type="button" value="smoke" class="option-button">흡연해요
+    </button>
     <button type="button" value="None" class="exclusive-button">해당되는 부분이 없어요</button><br>
     <input type="hidden" name="answer" id="answer">
     <input type="hidden" name="existing_answers" value="{{ answers }}">
-    <button type="submit" class="submit-button">다음</button>
+    <button type="submit" class="submit-button">제출</button>
 </form>
 
 <script>

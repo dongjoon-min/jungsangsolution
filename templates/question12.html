@@ -1,23 +1,48 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>해당하는 생활습관에 체크해주세요. (중복선택 가능)</h2>
+
+<br>
+<div id="progress-data" data-question-id="{{ question_id }}"></div>
+<div class="progress-container">
+    <div class="progress-bar" id="progress-bar">
+        <span id="progress-text"></span>
+    </div>
+</div>
+<br>
+<h2>해당하는 질환 혹은 증상이 있으면 <b>모두</b> 체크해주세요.</h2>
 <form action="/submit/12" method="post">
-    <button type="button" value="stress" class="option-button">평소 스트레스를 많이 받는 편이에요
-    </button>
-    <button type="button" value="sleep" class="option-button">하루 평균 수면 시간이 6시간 미만이에요
-    </button>
-    <button type="button" value="coffee" class="option-button">하루에 커피를 2잔 이상 마셔요
-    </button>
-    <button type="button" value="smoke" class="option-button">흡연해요
-    </button>
+    <button type="button" value="circulation" class="option-button">고혈압, 관상동맥질환 등 심혈관계 질환</button>
+    <button type="button" value="diabetes" class="option-button">당뇨병 </button>
+    <button type="button" value="immune" class="option-button">자가면역질환 </button>
+    <button type="button" value="tinnitus" class="option-button">이명</button>
+    <button type="button" value="headache" class="option-button">두통 / 편두통</button>
+    <button type="button" value="mucous" class="option-button">코, 입, 목 등의 건조함</button>
     <button type="button" value="None" class="exclusive-button">해당되는 부분이 없어요
         / 잘 모르겠어요</button><br>
     <input type="hidden" name="answer" id="answer">
     <input type="hidden" name="existing_answers" value="{{ answers }}">
-    <button type="submit" class="submit-button">제출</button>
+    <button type="submit" class="submit-button">다음</button>
 </form>
 
+
 <script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const progressData = document.getElementById('progress-data');
+        const currentQuestionId = progressData.dataset.questionId;
+        updateProgressBar(currentQuestionId);
+    });
+
+    function updateProgressBar(questionId) {
+        const totalQuestions = 13;
+        const progressBar = document.getElementById('progress-bar');
+        const progressText = document.getElementById('progress-text');
+        const progress = (questionId / totalQuestions) * 100;
+
+        progressBar.style.width = progress + '%';
+        progressText.textContent = questionId + ' / ' + totalQuestions;
+    }
+
+    // 다중 선택 
     document.addEventListener('DOMContentLoaded', function () {
         const buttons = document.querySelectorAll('.option-button');
         const exclusiveButton = document.querySelector('.exclusive-button');
